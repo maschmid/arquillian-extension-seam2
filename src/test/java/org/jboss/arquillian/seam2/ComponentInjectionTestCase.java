@@ -19,12 +19,14 @@ package org.jboss.arquillian.seam2;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.seam2.test.simple.FluidOuncesConverter;
 import org.jboss.seam.annotations.In;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,13 +34,22 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class ComponentInjectionTestCase
 {
-   @Deployment
+   @Deployment(name="ComponentInjectionTestCase")
+   @OverProtocol("Servlet 3.0") 
    public static Archive<?> createDeployment()
    {
       return ShrinkWrap.create(WebArchive.class, "test.war")
                        .addClass(FluidOuncesConverter.class)
                        .addPackages(true, "org.fest")
-                       .addPackages(true, "org.dom4j") // Required for JBoss AS 4.2.3.GA
+                       .addAsWebInfResource(new StringAsset(
+                    		"<jboss-deployment-structure>" +
+                    				"<deployment>" +
+                    					"<dependencies>" +
+                    						"<module name=\"org.javassist\"/>" +
+                    						"<module name=\"org.dom4j\"/>" +
+                    					"</dependencies>" +
+                    				"</deployment>" +
+                       		"</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
                        .addAsResource(EmptyAsset.INSTANCE, "seam.properties")
                        .setWebXML("web.xml");
    }

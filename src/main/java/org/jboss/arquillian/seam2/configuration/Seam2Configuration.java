@@ -29,7 +29,7 @@ public class Seam2Configuration implements Serializable
 
    private static final long serialVersionUID = 400180473206524250L;
 
-   public static final String SEAM_ARTIFACT = "org.jboss.seam:jboss-seam";
+   private String seamArtifact = "org.jboss.seam:jboss-seam";
 
    public static final String JBOSS_EL_ARTIFACT = "org.jboss.el:jboss-el";
 
@@ -61,4 +61,13 @@ public class Seam2Configuration implements Serializable
       this.jbossElVersion = jbossElVersion;
    }
 
+   public String getSeamArtifact()
+   {
+      return seamArtifact;
+   }
+
+   public void setSeamArtifact(String seamArtifact)
+   {
+      this.seamArtifact = seamArtifact;
+   }
 }

@@ -91,11 +91,11 @@ public class Seam2ArchiveProcessor implements ApplicationArchiveProcessor
       File[] seamDependencies = null;
       if (!configurationInstance.get().getSeamVersion().isEmpty())
       {
-         seamDependencies = resolveArtifact(Seam2Configuration.SEAM_ARTIFACT + ":" + configurationInstance.get().getSeamVersion());
+         seamDependencies = resolveArtifact(configurationInstance.get().getSeamArtifact() + ":" + configurationInstance.get().getSeamVersion());
       }
       else
       {
-         seamDependencies = resolveArtifact(Seam2Configuration.SEAM_ARTIFACT, Seam2Configuration.DEFAULT_SEAM_VERSION);
+         seamDependencies = resolveArtifact(configurationInstance.get().getSeamArtifact(), Seam2Configuration.DEFAULT_SEAM_VERSION);
       }
 
       return seamDependencies;
